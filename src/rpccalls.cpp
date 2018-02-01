@@ -18,10 +18,6 @@ rpccalls::rpccalls(string _deamon_url,
     port = std::to_string(url.port);
 
     timeout_time_ms = std::chrono::milliseconds {timeout_time};
-
-    m_http_client.set_server(
-            deamon_url,
-            boost::optional<epee::net_utils::http::login>{});
 }
 
 bool
@@ -34,7 +30,7 @@ rpccalls::connect_to_monero_deamon()
         return true;
     }
 
-    return m_http_client.connect(timeout_time_ms);
+    return m_http_client.connect(url.host, url.port, 20000);
 }
 
 uint64_t
@@ -51,9 +47,7 @@ rpccalls::get_current_height()
         return false;
     }
 
-    bool r = epee::net_utils::invoke_http_json(
-            "/getheight",
-            req, res, m_http_client, timeout_time_ms);
+    bool r = epee::net_utils::invoke_http_json_remote_command2(deamon_url + "/getheight", req, res, m_http_client, 200000);
 
     if (!r)
     {
@@ -83,9 +77,7 @@ rpccalls::get_mempool(vector<tx_info>& mempool_txs)
             return false;
         }
 
-        r = epee::net_utils::invoke_http_json(
-                "/get_transaction_pool",
-                req, res, m_http_client, timeout_time_ms);
+        r = epee::net_utils::invoke_http_json_remote_command2(deamon_url + "/get_transaction_pool", req, res, m_http_client, 200000);
     }
 
     if (!r || res.status != CORE_RPC_STATUS_OK)
@@ -130,9 +122,7 @@ rpccalls::commit_tx(tools::wallet2::pending_tx& ptx, string& error_msg)
         return false;
     }
 
-    bool r = epee::net_utils::invoke_http_json(
-            "/sendrawtransaction",
-            req, res, m_http_client, timeout_time_ms);
+    bool r = epee::net_utils::invoke_http_json_remote_command2(deamon_url + "/sendrawtransaction", req, res, m_http_client, 200000);
 
     if (!r || res.status == "Failed")
     {
@@ -169,9 +159,7 @@ rpccalls::get_network_info(COMMAND_RPC_GET_INFO::response& response)
             return false;
         }
 
-        r = epee::net_utils::invoke_http_json("/json_rpc",
-                                              req_t, resp_t,
-                                              m_http_client);
+        r = epee::net_utils::invoke_http_json_remote_command2(deamon_url + "/json_rpc", req_t, resp_t, m_http_client, 200000);
     }
 
     string err;
@@ -235,9 +223,7 @@ rpccalls::get_dynamic_per_kb_fee_estimate(
             return false;
         }
 
-        r = epee::net_utils::invoke_http_json("/json_rpc",
-                                              req_t, resp_t,
-                                              m_http_client);
+        r = epee::net_utils::invoke_http_json_remote_command2(deamon_url + "/json_rpc", req_t, resp_t, m_http_client, 200000);
     }
 
     string err;
@@ -298,9 +284,7 @@ rpccalls::get_block(string const& blk_hash, block& blk, string& error_msg)
             return false;
         }
 
-        r = epee::net_utils::invoke_http_json("/json_rpc",
-                                              req_t, resp_t,
-                                              m_http_client);
+        r = epee::net_utils::invoke_http_json_remote_command2(deamon_url + "/json_rpc", req_t, resp_t, m_http_client, 200000);
     }
 
     string err;

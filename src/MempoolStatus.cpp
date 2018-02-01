@@ -246,8 +246,8 @@ MempoolStatus::read_network_info()
     local_copy.white_peerlist_size        = rpc_network_info.white_peerlist_size;
     local_copy.testnet                    = rpc_network_info.testnet;
     local_copy.cumulative_difficulty      = rpc_network_info.cumulative_difficulty;
-    local_copy.block_size_limit           = rpc_network_info.block_size_limit;
-    local_copy.start_time                 = rpc_network_info.start_time;
+   // local_copy.block_size_limit           = rpc_network_info.block_size_limit;
+   // local_copy.start_time                 = rpc_network_info.start_time;
 
     epee::string_tools::hex_to_pod(rpc_network_info.top_block_hash, local_copy.top_block_hash);
     local_copy.fee_per_kb                 = fee_estimated;

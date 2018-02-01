@@ -132,9 +132,7 @@ public:
                 return false;
             }
 
-            r = epee::net_utils::invoke_http_json("/get_alt_blocks_hashes",
-                                                  req, resp,
-                                                  m_http_client);
+            r = epee::net_utils::invoke_http_json_remote_command2(deamon_url + "/get_alt_blocks_hashes", req, resp, m_http_client, 200000);
         }
 
         string err;

@@ -80,14 +80,14 @@ namespace xmreg
 
     bool
     parse_str_address(const string& address_str,
-                      account_public_address& address,
+                      address_parse_info& address_info,
                       bool testnet = false);
 
     inline bool
     is_separator(char c);
 
     string
-    print_address(const account_public_address& address,
+    print_address(const address_parse_info& address_info,
                   bool testnet = false);
 
     string

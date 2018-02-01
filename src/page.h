@@ -1453,9 +1453,9 @@ namespace xmreg
             }
 
             // parse string representing given monero address
-            cryptonote::account_public_address address;
+            cryptonote::address_parse_info address_info;
 
-            if (!xmreg::parse_str_address(xmr_address_str,  address, testnet))
+            if (!xmreg::parse_str_address(xmr_address_str,  address_info, testnet))
             {
                 cerr << "Cant parse string address: " << xmr_address_str << endl;
                 return string("Cant parse xmr address: " + xmr_address_str);
@@ -1644,7 +1644,7 @@ namespace xmreg
             // to create, so called, derived key.
             key_derivation derivation;
 
-            public_key pub_key = tx_prove ? address.m_view_public_key : txd.pk;
+            public_key pub_key = tx_prove ? address_info.address.m_view_public_key : txd.pk;
 
             //cout << "txd.pk: " << pod_to_hex(txd.pk) << endl;
 
@@ -1688,7 +1688,7 @@ namespace xmreg
 
                 derive_public_key(derivation,
                                   output_idx,
-                                  address.m_spend_public_key,
+                                  address_info.address.m_spend_public_key,
                                   tx_pubkey);
 
                 //cout << pod_to_hex(outp.first.key) << endl;
@@ -1943,7 +1943,7 @@ namespace xmreg
 
                         derive_public_key(derivation,
                                           output_idx_in_tx,
-                                          address.m_spend_public_key,
+                                          address_info.address.m_spend_public_key,
                                           tx_pubkey_generated);
 
                         // check if generated public key matches the current output's key
@@ -2183,6 +2183,7 @@ namespace xmreg
 
                 ::tools::wallet2::unsigned_tx_set exported_txs;
 
+/* TODO
                 try
                 {
                     std::istringstream iss(s);
@@ -2195,6 +2196,7 @@ namespace xmreg
                 {
                     cerr << "Failed to parse unsigned tx data " << endl;
                 }
+*/
 
                 if (r)
                 {
@@ -2233,8 +2235,9 @@ namespace xmreg
 
                         for (const tx_destination_entry& a_dest: tx_cd.splitted_dsts)
                         {
+                            // TODO
                             mstch::map dest_info {
-                                    {"dest_address"  , get_account_address_as_str(testnet, a_dest.addr)},
+                                    {"dest_address"  , get_account_address_as_str(testnet, false, a_dest.addr)},
                                     {"dest_amount"   , xmreg::xmr_amount_to_str(a_dest.amount)}
                             };
 
@@ -2526,6 +2529,7 @@ namespace xmreg
 
                 ::tools::wallet2::signed_tx_set signed_txs;
 
+/* TODO
                 try
                 {
                     std::istringstream iss(s);
@@ -2538,6 +2542,7 @@ namespace xmreg
                 {
                     cerr << "Failed to parse signed tx data " << endl;
                 }
+*/
 
                 if (!r)
                 {
@@ -2573,8 +2578,9 @@ namespace xmreg
                         //address_amounts.push_back(a_dest.amount);
 
                         destination_addresses.push_back(
+				// TODO
                                 mstch::map {
-                                        {"dest_address"   , get_account_address_as_str(testnet, a_dest.addr)},
+                                        {"dest_address"   , get_account_address_as_str(testnet, false, a_dest.addr)},
                                         {"dest_amount"    , xmreg::xmr_amount_to_str(a_dest.amount)},
                                         {"is_this_change" , false}
                                 }
@@ -2590,7 +2596,7 @@ namespace xmreg
                     {
                         destination_addresses.push_back(
                                 mstch::map {
-                                        {"dest_address"   , get_account_address_as_str(testnet, ptx.construction_data.change_dts.addr)},
+                                        {"dest_address"   , get_account_address_as_str(testnet, false, ptx.construction_data.change_dts.addr)},
                                         {"dest_amount"    , xmreg::xmr_amount_to_str(ptx.construction_data.change_dts.amount)},
                                         {"is_this_change" , true}
                                 }
@@ -2833,6 +2839,7 @@ namespace xmreg
 
                 ::tools::wallet2::signed_tx_set signed_txs;
 
+/* TODO
                 try
                 {
                     std::istringstream iss(s);
@@ -2847,6 +2854,7 @@ namespace xmreg
                 }
 
 
+*/
                 if (!r)
                 {
                     string error_msg = fmt::format("Deserialization of signed tx data NOT successful! "
@@ -3096,7 +3104,9 @@ namespace xmreg
                     reinterpret_cast<const account_public_address*>(
                             decoded_raw_data.data());
 
-            context.insert({"address"        , REMOVE_HASH_BRAKETS(xmreg::print_address(*xmr_address, testnet))});
+            address_parse_info address_info {*xmr_address, false};
+
+            context.insert({"address"        , REMOVE_HASH_BRAKETS(xmreg::print_address(address_info, testnet))});
             context.insert({"viewkey"        , REMOVE_HASH_BRAKETS(fmt::format("{:s}", prv_view_key))});
             context.insert({"has_total_xmr"  , false});
             context.insert({"total_xmr"      , string{}});
@@ -3123,7 +3133,7 @@ namespace xmreg
                         {"key_no"              , fmt::format("{:03d}", n)},
                         {"key_image"           , pod_to_hex(key_image)},
                         {"signature"           , fmt::format("{:s}", signature)},
-                        {"address"             , xmreg::print_address(*xmr_address, testnet)},
+                        {"address"             , xmreg::print_address(address_info, testnet)},
                         {"is_spent"            , core_storage->have_tx_keyimg_as_spent(key_image)},
                         {"tx_hash"             , string{}}
                 };
@@ -3224,7 +3234,8 @@ namespace xmreg
                     reinterpret_cast<const account_public_address*>(
                             decoded_raw_data.data());
 
-            context.insert({"address"        , REMOVE_HASH_BRAKETS(xmreg::print_address(*xmr_address, testnet))});
+	    //TODO
+            //context.insert({"address"        , REMOVE_HASH_BRAKETS(xmreg::print_address(*xmr_address, testnet))});
             context.insert({"viewkey"        , REMOVE_HASH_BRAKETS(fmt::format("{:s}", prv_view_key))});
             context.insert({"has_total_xmr"  , false});
             context.insert({"total_xmr"      , string{}});
@@ -3431,35 +3442,36 @@ namespace xmreg
             if (search_str_length == 95)
             {
                 // parse string representing given monero address
-                cryptonote::account_public_address address;
+                address_parse_info address_info;
 
                 bool testnet_addr {false};
 
                 if (search_text[0] == '9' || search_text[0] == 'A')
                     testnet_addr = true;
 
-                if (!xmreg::parse_str_address(search_text, address, testnet_addr))
+                if (!xmreg::parse_str_address(search_text, address_info, testnet_addr))
                 {
                     cerr << "Cant parse string address: " << search_text << endl;
                     return string("Cant parse address (probably incorrect format): ")
                            + search_text;
                 }
 
-                return show_address_details(address, testnet_addr);
+                return show_address_details(address_info, testnet_addr);
             }
 
             // check if integrated monero address is given based on its length
             // if yes, then show its public components search tx based on encrypted id
+/*
             if (search_str_length == 106)
             {
 
-                cryptonote::account_public_address address;
+                address_parse_info address_info;
 
                 bool has_payment_id;
 
                 crypto::hash8 encrypted_payment_id;
 
-                if (!get_account_integrated_address_from_str(address,
+                if (!get_account_integrated_address_from_str(address_info,
                                                              has_payment_id,
                                                              encrypted_payment_id,
                                                              testnet,
@@ -3470,8 +3482,9 @@ namespace xmreg
                            + search_text;
                 }
 
-                return show_integrated_address_details(address, encrypted_payment_id, testnet);
+                return show_integrated_address_details(address_info, encrypted_payment_id, testnet);
             }
+*/
 
             // all_possible_tx_hashes was field using custom lmdb database
             // it was dropped, so all_possible_tx_hashes will be alwasy empty
@@ -3484,12 +3497,12 @@ namespace xmreg
         }
 
         string
-        show_address_details(const account_public_address& address, bool testnet = false)
+        show_address_details(const address_parse_info& address_info, bool testnet = false)
         {
 
-            string address_str      = xmreg::print_address(address, testnet);
-            string pub_viewkey_str  = fmt::format("{:s}", address.m_view_public_key);
-            string pub_spendkey_str = fmt::format("{:s}", address.m_spend_public_key);
+            string address_str      = xmreg::print_address(address_info, testnet);
+            string pub_viewkey_str  = fmt::format("{:s}", address_info.address.m_view_public_key);
+            string pub_spendkey_str = fmt::format("{:s}", address_info.address.m_spend_public_key);
 
             mstch::map context {
                     {"xmr_address"        , REMOVE_HASH_BRAKETS(address_str)},
@@ -3505,16 +3518,15 @@ namespace xmreg
             return mstch::render(template_file["address"], context);
         }
 
-        // ;
         string
-        show_integrated_address_details(const account_public_address& address,
+        show_integrated_address_details(const address_parse_info& address_info,
                                         const crypto::hash8& encrypted_payment_id,
                                         bool testnet = false)
         {
 
-            string address_str        = xmreg::print_address(address, testnet);
-            string pub_viewkey_str    = fmt::format("{:s}", address.m_view_public_key);
-            string pub_spendkey_str   = fmt::format("{:s}", address.m_spend_public_key);
+            string address_str        = xmreg::print_address(address_info, testnet);
+            string pub_viewkey_str    = fmt::format("{:s}", address_info.address.m_view_public_key);
+            string pub_spendkey_str   = fmt::format("{:s}", address_info.address.m_spend_public_key);
             string enc_payment_id_str = fmt::format("{:s}", encrypted_payment_id);
 
             mstch::map context {
@@ -4567,9 +4579,9 @@ namespace xmreg
             }
 
             // parse string representing given monero address
-            cryptonote::account_public_address address;
+            address_parse_info address_info;
 
-            if (!xmreg::parse_str_address(address_str,  address, testnet))
+            if (!xmreg::parse_str_address(address_str,  address_info, testnet))
             {
                 j_response["status"]  = "error";
                 j_response["message"] = "Cant parse monero address: " + address_str;
@@ -4613,7 +4625,7 @@ namespace xmreg
             // to create, so called, derived key.
             key_derivation derivation;
 
-            public_key pub_key = tx_prove ? address.m_view_public_key : txd.pk;
+            public_key pub_key = tx_prove ? address_info.address.m_view_public_key : txd.pk;
 
             //cout << "txd.pk: " << pod_to_hex(txd.pk) << endl;
 
@@ -4641,7 +4653,7 @@ namespace xmreg
 
                 derive_public_key(derivation,
                                   output_idx,
-                                  address.m_spend_public_key,
+                                  address_info.address.m_spend_public_key,
                                   tx_pubkey);
 
                 // check if generated public key matches the current output's key
@@ -4694,7 +4706,7 @@ namespace xmreg
             // check if submited data in the request
             // matches to what was used to produce response.
             j_data["tx_hash"]  = pod_to_hex(txd.hash);
-            j_data["address"]  = pod_to_hex(address);
+            j_data["address"]  = pod_to_hex(address_info.address);
             j_data["viewkey"]  = pod_to_hex(prv_view_key);
             j_data["tx_prove"] = tx_prove;
 
@@ -4753,9 +4765,9 @@ namespace xmreg
             }
 
             // parse string representing given monero address
-            cryptonote::account_public_address address;
+            address_parse_info address_info;
 
-            if (!xmreg::parse_str_address(address_str, address, testnet))
+            if (!xmreg::parse_str_address(address_str, address_info, testnet))
             {
                 j_response["status"]  = "error";
                 j_response["message"] = "Cant parse monero address: " + address_str;
@@ -4801,7 +4813,7 @@ namespace xmreg
                 }
 
                 if (!find_our_outputs(
-                        address, prv_view_key,
+                        address_info, prv_view_key,
                         0 /* block_no */, true /*is mempool*/,
                         tmp_vector.cbegin(), tmp_vector.cend(),
                         j_outptus /* found outputs are pushed to this*/,
@@ -4858,7 +4870,7 @@ namespace xmreg
                 (void) missed_txs;
 
                 if (!find_our_outputs(
-                        address, prv_view_key,
+                        address_info, prv_view_key,
                         block_no, false /*is mempool*/,
                         blk_txs.cbegin(), blk_txs.cend(),
                         j_outptus /* found outputs are pushed to this*/,
@@ -4876,7 +4888,7 @@ namespace xmreg
             // return parsed values. can be use to double
             // check if submited data in the request
             // matches to what was used to produce response.
-            j_data["address"]  = pod_to_hex(address);
+            j_data["address"]  = pod_to_hex(address_info.address);
             j_data["viewkey"]  = pod_to_hex(prv_view_key);
             j_data["limit"]    = _limit;
             j_data["height"]   = height;
@@ -4996,7 +5008,7 @@ namespace xmreg
                     {"last_git_commit_hash", string {GIT_COMMIT_HASH}},
                     {"last_git_commit_date", string {GIT_COMMIT_DATETIME}},
                     {"git_branch_name"     , string {GIT_BRANCH_NAME}},
-                    {"monero_version_full" , string {MONERO_VERSION_FULL}},
+                    {"monero_version_full" , string {OMBRE_VERSION_FULL}},
                     {"api"                 , ONIONEXPLORER_RPC_VERSION},
                     {"blockchain_height"   , core_storage->get_current_blockchain_height()}
             };
@@ -5038,7 +5050,7 @@ namespace xmreg
         template <typename Iterator>
         bool
         find_our_outputs(
-                account_public_address const& address,
+                address_parse_info const& address_info,
                 secret_key const& prv_view_key,
                 uint64_t const& block_no,
                 bool const& is_mempool,
@@ -5083,7 +5095,7 @@ namespace xmreg
 
                     derive_public_key(derivation,
                                       output_idx,
-                                      address.m_spend_public_key,
+                                      address_info.address.m_spend_public_key,
                                       tx_pubkey);
 
                     // check if generated public key matches the current output's key
@@ -5963,7 +5975,7 @@ namespace xmreg
                     {"last_git_commit_hash", string {GIT_COMMIT_HASH}},
                     {"last_git_commit_date", string {GIT_COMMIT_DATETIME}},
                     {"git_branch_name"     , string {GIT_BRANCH_NAME}},
-                    {"monero_version_full" , string {MONERO_VERSION_FULL}},
+                    {"monero_version_full" , string {OMBRE_VERSION_FULL}},
                     {"api"                 , std::to_string(ONIONEXPLORER_RPC_VERSION_MAJOR)
                                              + "."
                                              + std::to_string(ONIONEXPLORER_RPC_VERSION_MINOR)},

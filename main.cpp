@@ -6,9 +6,12 @@
 #include "ext/crow/crow.h"
 #include "src/CmdLineOptions.h"
 #include "src/MicroCore.h"
+#include "easylogging++.h"
 
 #include <fstream>
 #include <regex>
+
+INITIALIZE_EASYLOGGINGPP
 
 using boost::filesystem::path;
 
@@ -81,7 +84,7 @@ main(int ac, const char* av[])
 
     // set  monero log output level
     uint32_t log_level = 0;
-    mlog_configure("", true);
+    //mlog_configure("", true);
 
     //cast port number in string to uint
     uint16_t app_port = boost::lexical_cast<uint16_t>(*port_opt);

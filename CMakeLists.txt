@@ -7,7 +7,7 @@ set(PROJECT_NAME
 project(${PROJECT_NAME})
 
 set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} -std=c++14")
+        "${CMAKE_CXX_FLAGS} -L /usr/lib/x86_64-linux-gnu/ -I ~/ombre/ -std=c++14")
 
 if (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj -O3")
@@ -15,7 +15,7 @@ endif()
 
 
 if (NOT MONERO_DIR)
-    set(MONERO_DIR ~/monero)
+    set(MONERO_DIR ~/ombre)
 endif()
 
 message(STATUS MONERO_DIR ": ${MONERO_DIR}")
@@ -98,20 +98,15 @@ set(LIBRARIES
         blockchain_db
         cryptonote_core
         cryptonote_protocol
-        cryptonote_basic
         daemonizer
-        cncrypto
-        blocks
         lmdb
         ringct
         common
         mnemonics
-        epee
-        easylogging
         ${Boost_LIBRARIES}
         pthread
         unbound
-        curl
+        cncrypto
         crypto
         ssl)
 
