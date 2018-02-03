@@ -152,7 +152,7 @@ main(int ac, const char* av[])
 
     string deamon_url {*deamon_url_opt};
 
-    if (testnet && deamon_url == "http:://127.0.0.1:18081")
+    if (testnet && deamon_url == "http:://127.0.0.1:19743")
     {
         deamon_url = "http:://127.0.0.1:28081";
     }

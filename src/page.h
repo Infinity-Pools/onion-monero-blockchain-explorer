@@ -2183,20 +2183,14 @@ namespace xmreg
 
                 ::tools::wallet2::unsigned_tx_set exported_txs;
 
-/* TODO
                 try
                 {
-                    std::istringstream iss(s);
-                    boost::archive::portable_binary_iarchive ar(iss);
-                    ar >> exported_txs;
-
-                    r = true;
+                  r = ::serialization::parse_binary(std::string(s.c_str() + magiclen, s.size() - magiclen), exported_txs);
                 }
                 catch (...)
                 {
                     cerr << "Failed to parse unsigned tx data " << endl;
                 }
-*/
 
                 if (r)
                 {
@@ -2529,20 +2523,14 @@ namespace xmreg
 
                 ::tools::wallet2::signed_tx_set signed_txs;
 
-/* TODO
                 try
                 {
-                    std::istringstream iss(s);
-                    boost::archive::portable_binary_iarchive ar(iss);
-                    ar >> signed_txs;
-
-                    r = true;
+                  r = ::serialization::parse_binary(std::string(s.c_str() + magiclen, s.size() - magiclen), signed_txs);
                 }
                 catch (...)
                 {
                     cerr << "Failed to parse signed tx data " << endl;
                 }
-*/
 
                 if (!r)
                 {
@@ -2839,22 +2827,15 @@ namespace xmreg
 
                 ::tools::wallet2::signed_tx_set signed_txs;
 
-/* TODO
                 try
                 {
-                    std::istringstream iss(s);
-                    boost::archive::portable_binary_iarchive ar(iss);
-                    ar >> signed_txs;
-
-                    r = true;
+                  r = ::serialization::parse_binary(std::string(s.c_str() + magiclen, s.size() - magiclen), signed_txs);
                 }
                 catch (...)
                 {
                     cerr << "Failed to parse signed tx data " << endl;
                 }
 
-
-*/
                 if (!r)
                 {
                     string error_msg = fmt::format("Deserialization of signed tx data NOT successful! "
@@ -4584,7 +4565,7 @@ namespace xmreg
             if (!xmreg::parse_str_address(address_str,  address_info, testnet))
             {
                 j_response["status"]  = "error";
-                j_response["message"] = "Cant parse monero address: " + address_str;
+                j_response["message"] = "Cant parse ombre address.";
                 return j_response;
 
             }
@@ -4770,7 +4751,7 @@ namespace xmreg
             if (!xmreg::parse_str_address(address_str, address_info, testnet))
             {
                 j_response["status"]  = "error";
-                j_response["message"] = "Cant parse monero address: " + address_str;
+                j_response["message"] = "Cant parse ombre address";
                 return j_response;
 
             }
@@ -4919,7 +4900,7 @@ namespace xmreg
             if (!get_monero_network_info(j_info))
             {
                 j_response["status"]  = "error";
-                j_response["message"] = "Cant get monero network info";
+                j_response["message"] = "Cant get ombre network info";
                 return j_response;
             }
 
