@@ -7,7 +7,7 @@ set(PROJECT_NAME
 project(${PROJECT_NAME})
 
 set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} -L /usr/lib/x86_64-linux-gnu/ -I ~/ombre/ -std=c++14")
+        "${CMAKE_CXX_FLAGS} -g -L /usr/lib/x86_64-linux-gnu/ -I ~/ombre/ -std=c++14")
 
 if (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj -O3")

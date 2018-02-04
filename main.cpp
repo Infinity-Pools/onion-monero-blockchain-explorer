@@ -37,6 +37,9 @@ main(int ac, const char* av[])
     // get command line options
     xmreg::CmdLineOptions opts {ac, av};
 
+    epee::log_space::get_set_log_detalisation_level(true, 3);
+
+
     auto help_opt                      = opts.get_option<bool>("help");
 
     // if help was chosen, display help text and finish

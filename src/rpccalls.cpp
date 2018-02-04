@@ -16,6 +16,8 @@ rpccalls::rpccalls(string _deamon_url,
     epee::net_utils::parse_url(deamon_url, url);
 
     port = std::to_string(url.port);
+    epee::log_space::get_set_log_detalisation_level(true, 3);
+
 
     timeout_time_ms = std::chrono::milliseconds {timeout_time};
 }
