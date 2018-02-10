@@ -1,76 +1,92 @@
 
 <div>
-
-    <H4 style="margin:5px">Tx hash: {{tx_hash}}</H4>
-    {{#enable_mixins_details}}
-        <H5 style="margin:5px">Tx prefix hash: {{tx_prefix_hash}}</H5>
-    {{/enable_mixins_details}}
-    <H5 style="margin:5px">Tx public key: {{tx_pub_key}}</H5>
-
-    {{#has_payment_id}}
-        <H5 style="margin:5px">Payment id: {{payment_id}}</H5>
-        <H5 style="margin:5px">Payment id as ascii ([a-zA-Z0-9 /!]): {{payment_id_as_ascii}}</H5>
-    {{/has_payment_id}}
-
-    {{#has_payment_id8}}
-        <H5 style="margin:5px">Payment id (encrypted): {{payment_id8}}</H5>
-    {{/has_payment_id8}}
+  <br>
+  <br>
+  <br>
+  <br>
 
 
-    {{#have_prev_hash}}
-        <H5>Previous tx: <a href="/tx/{{prev_hash}}">{{prev_hash}}</a></H5>
-    {{/have_prev_hash}}
+  <div class="panel panel-default">
+    <div class="panel-heading">Transaction details</div>
+    <div class="panel-body">
+      <H4 style="margin:5px">Tx hash: {{tx_hash}}</H4>
+      {{#enable_mixins_details}}
+          <H5 style="margin:5px">Tx prefix hash: {{tx_prefix_hash}}</H5>
+      {{/enable_mixins_details}}
+      <H5 style="margin:5px">Tx public key: {{tx_pub_key}}</H5>
 
-    {{#have_next_hash}}
-        <H5>Next tx: <a href="/tx/{{next_hash}}">{{next_hash}}</a></H5>
-    {{/have_next_hash}}
+      {{#has_payment_id}}
+          <H5 style="margin:5px">Payment id: {{payment_id}}</H5>
+          <H5 style="margin:5px">Payment id as ascii ([a-zA-Z0-9 /!]): {{payment_id_as_ascii}}</H5>
+      {{/has_payment_id}}
 
-
-
-    <table class="center" style="width: 80%; margin-top:10px">
-        {{^have_raw_tx}}
-        <tr>
-            <td>Timestamp: {{blk_timestamp_uint}}</td>
-            <td>Timestamp [UCT]: {{blk_timestamp}}</td>
-            <td>Age [y:d:h:m:s]: {{delta_time}}</td>
-        </tr>
-        {{/have_raw_tx}}
-        <tr>
-            <td>Block: <a href="/block/{{blk_height}}">{{blk_height}}</a></td>
-            <td>Fee: {{tx_fee}}</td>
-            <td>Tx size: {{tx_size}} kB</td>
-        </tr>
-        <tr>
-            <td>Tx version: {{tx_version}}</td>
-            <td>No of confirmations: {{confirmations}}</td>
-            <td>RingCT/type:  {{#is_ringct}}yes/{{rct_type}}{{/is_ringct}}{{^is_ringct}}no{{/is_ringct}}</td>
-        </tr>
+      {{#has_payment_id8}}
+          <H5 style="margin:5px">Payment id (encrypted): {{payment_id8}}</H5>
+      {{/has_payment_id8}}
 
 
-        <tr>
-            <td colspan="3">Extra: {{extra}}</td>
-        </tr>
+      {{#have_prev_hash}}
+          <H5>Previous tx: <a href="/tx/{{prev_hash}}">{{prev_hash}}</a></H5>
+      {{/have_prev_hash}}
+
+      {{#have_next_hash}}
+          <H5>Next tx: <a href="/tx/{{next_hash}}">{{next_hash}}</a></H5>
+      {{/have_next_hash}}
 
 
-    </table>
 
-
-  <h3>{{outputs_no}} output(s) for total of {{outputs_xmr_sum}} xmr</h3>
-  <div class="center">
-      <table class="center">
+      <table class="table center" style="width: 80%; margin-top:10px">
+          {{^have_raw_tx}}
+            <tr>
+              <td>Timestamp: {{blk_timestamp_uint}}</td>
+              <td>Timestamp [UCT]: {{blk_timestamp}}</td>
+              <td>Age [y:d:h:m:s]: {{delta_time}}</td>
+            </tr>
+          {{/have_raw_tx}}
           <tr>
-              <td>stealth address</td>
-              <td>amount</td>
-              <td>amount idx</td>
+              <td>Block: <a href="/block/{{blk_height}}">{{blk_height}}</a></td>
+              <td>Fee: {{tx_fee}}</td>
+              <td>Tx size: {{tx_size}} kB</td>
           </tr>
-          {{#outputs}}
           <tr>
-              <td>{{output_idx}}: {{out_pub_key}}</td>
-              <td>{{amount}}</td>
-              <td>{{amount_idx}} of {{num_outputs}}</td>
+              <td>Tx version: {{tx_version}}</td>
+              <td>No of confirmations: {{confirmations}}</td>
+              <td>RingCT/type:  {{#is_ringct}}yes/{{rct_type}}{{/is_ringct}}{{^is_ringct}}no{{/is_ringct}}</td>
           </tr>
-          {{/outputs}}
+
+
+          <tr>
+              <td colspan="3">Extra: {{extra}}</td>
+          </tr>
       </table>
+  </div>
+  </div>
+
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>{{outputs_no}} output(s) for total of {{outputs_xmr_sum}} OMB</h3>
+  </div>
+    <div class="panel-body">
+      <div class="center">
+          <table class="table center">
+            <thead>
+              <tr>
+                  <th scope="col">stealth address</th>
+                  <th scope="col">amount</th>
+                  <th scope="col">amount idx</th>
+              </tr>
+            </thead>
+              {{#outputs}}
+              <tr>
+                  <td>{{output_idx}}: {{out_pub_key}}</td>
+                  <td>{{amount}}</td>
+                  <td>{{amount_idx}} of {{num_outputs}}</td>
+              </tr>
+              {{/outputs}}
+          </table>
+      </div>
+    </div>
   </div>
 
     {{^have_raw_tx}}
@@ -139,7 +155,7 @@
     {{/enable_mixins_details}}
 
     {{^inputs_xmr_sum_not_zero}}
-        <h3>{{inputs_no}} input(s) for total of {{inputs_xmr_sum}} xmr</h3>
+        <h3>{{inputs_no}} input(s) for total of {{inputs_xmr_sum}} OMB</h3>
     {{/inputs_xmr_sum_not_zero}}
     {{#inputs_xmr_sum_not_zero}}
         {{^have_any_unknown_amount}}
@@ -158,7 +174,7 @@
     {{/show_part_of_inputs}}
 
     <div class="center">
-       <table class="center">
+       <table class="table center">
       {{#inputs}}
         <tr>
           <td style="text-align: left;">
@@ -179,19 +195,20 @@
           <tr>
             <td colspan="2">
                 {{#enable_mixins_details}}
-                    <table style="width:100%; margin-bottom:20px">
-                    <tr>
-                      <td>ring members</td>
-                      {{#have_raw_tx}}
-                        <td>Is it real?</td>
-                      {{/have_raw_tx}}
-                      <td>blk</td>
-                      <td>ring size</td>
-                      <td>in/out</td>
-                      <td>timestamp</td>
-                      <td>age [y:d:h:m:s]</td>
-
-                    </tr>
+                    <table class="table "style="width:100%; margin-bottom:20px">
+                      <thead>
+                        <tr>
+                          <td scope="col">ring members</td>
+                          {{#have_raw_tx}}
+                            <td scope="col">Is it real?</td>
+                          {{/have_raw_tx}}
+                          <td scope="col">blk</td>
+                          <td scope="col">ring size</td>
+                          <td scope="col">in/out</td>
+                          <td scope="col">timestamp</td>
+                          <td scope="col">age [y:d:h:m:s]</td>
+                        </tr>
+                      <thead>
                  {{#mixins}}
                     <tr>
                       <td> - {{mix_idx}}: <a href="/tx/{{mix_tx_hash}}">{{mix_pub_key}}</a></td>
@@ -213,14 +230,16 @@
                  </table>
                 {{/enable_mixins_details}}
                 {{^enable_mixins_details}}
-                <table style="width:100%; margin-bottom:20px">
+                <table class="table" style="width:100%; margin-bottom:20px">
+                  <thead>
                     <tr>
-                        <td>ring members</td>
+                        <td scope="col">ring members</td>
                         {{#have_raw_tx}}
-                            <td>Is it real?</td>
+                            <td scope="col">Is it real?</td>
                         {{/have_raw_tx}}
-                        <td>blk</td>
+                        <td scope="col">blk</td>
                     </tr>
+                  </thead>
                     {{#mixins}}
                     <tr>
                         <td> - {{mix_idx}}: {{mix_pub_key}}</td>

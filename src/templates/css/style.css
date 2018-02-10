@@ -1,9 +1,36 @@
+@import url(//fonts.googleapis.com/css?family=Roboto+Condensed:400,700);
+@import url(//fonts.googleapis.com/css?family=Roboto:400,300,500);
+
 body {
-    margin: 0;
-    padding: 0;
-    color: black;
-    background-color: white;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #6f6e6e;
+  background-color: white;
+  line-height: 1.428571429;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Roboto Condensed', Arial, sans-serif;
+}
+h3,
+.h3 {
+  font-size: 32px;
+  margin-bottom: 14px;
+}
+
 
 h1, h2, h3, h4, h5, h6 {
     text-align: center;
@@ -28,7 +55,6 @@ tr, li, #pages, .info {
 }
 
 td {
-    text-align: center;
 }
 
 a:link {
@@ -53,7 +79,6 @@ a:active {
 
 form {
     display: inline-block;
-    text-align: center;
 }
 
 .style-1 input[type="text"] {
@@ -128,7 +153,6 @@ label#show-decoded-inputs {
     background-color: white;
     color: black;
     width: 100%;
-    text-align: center;
 }
 
 div#decoded-inputs{
@@ -139,3 +163,56 @@ div#decoded-inputs{
 input#toggle-1[type=checkbox]:checked ~ div#decoded-inputs {
     display: block;
 }
+
+.navbar-header .navbar-brand {
+    text-transform: uppercase;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+}
+
+.navbar-header .navbar-brand span{
+    font-size: 70%;
+    padding-left: 23px;
+}
+
+.navbar-header .navbar-brand:focus {
+    outline: 0;
+}
+
+.navbar-inverse {
+  background-color: #2D5768;
+  border-color: #f9f9f8;
+  border-width: 0;
+}
+.navbar-inverse .container {
+  background-color: rgba(0, 0, 0, 0);
+}
+.navbar-inverse .navbar-brand {
+  color: #fff;
+}
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-brand:focus {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0);
+}
+.navbar-inverse .navbar-text {
+  color: #CEE3E4;
+}
+.navbar-inverse .navbar-nav > li > a {
+  color: #F0F9FA;
+}
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+  color: #ffffff;
+  background-color: transparent;
+}
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+  color: #ffffff;
+  background-color: #03a678;
+}
+
+
+
+

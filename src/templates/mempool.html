@@ -1,19 +1,22 @@
-<h2 style="margin-bottom: 0px">
-   Transaction pool
-</h2>
-<h4 style="font-size: 12px; margin-top: 0px">(no of txs: {{mempool_size}}, size: {{mempool_size_kB}} kB, updated every {{ mempool_refresh_time }} seconds)</h4>
-<div class="center">
-    
-      <table class="center" style="width:80%">
+
+<div class="panel panel-default">
+   <div class="panel-heading">
+     <h2>Transaction pool</h2>
+     <h4 style="font-size: 12px; margin-top: 0px">(no of txs: {{mempool_size}}, size: {{mempool_size_kB}} kB, updated every {{ mempool_refresh_time }} seconds)</h4>
+   </div>
+   <div class="panel-body">
+      <table class="table center">
+            <thead>
             <tr>
-                <td>age [h:m:s]</td>
-                <td>transaction hash</td>
-                <td>fee</td>
-                <td>outputs</td>
-                <td>in(nonrct)/out</td>
-                <td>ring size</td>
-                <td>tx size [kB]</td>
+                <th>age [h:m:s]</th>
+                <th>transaction hash</th>
+                <th>fee</th>
+                <th>outputs</th>
+                <th>in(nonrct)/out</th>
+                <th>ring size</th>
+                <th>tx size [kB]</th>
             </tr>
+            <thead>
             {{#mempooltxs}}
             <tr>
                 <td>{{age}}</td>
@@ -35,6 +38,5 @@
       {{/partial_mempool_shown}}
 
     {{/mempool_fits_on_front_page}}
-
-
+  </div>
 </div>
