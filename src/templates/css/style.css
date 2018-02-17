@@ -57,26 +57,6 @@ tr, li, #pages, .info {
 td {
 }
 
-a:link {
-    text-decoration: none;
-    color: black;
-}
-
-a:visited {
-    text-decoration: none;
-    color: black;
-}
-
-a:hover {
-    text-decoration: underline;
-    color: black;
-}
-
-a:active {
-    text-decoration: none;
-    color: black;
-}
-
 form {
     display: inline-block;
 }
@@ -129,7 +109,7 @@ form {
 }
 
 [type=radio]:checked ~ label {
-    background: #505050 ;
+    background: #efefef ;
     border-bottom: 1px solid black;
     z-index: 2;
 }
@@ -214,5 +194,9 @@ input#toggle-1[type=checkbox]:checked ~ div#decoded-inputs {
 }
 
 
+th {
+	font-size: 12px;
+	font-weight: bold;
+}
 
 
