@@ -61,12 +61,12 @@
     <div class="panel panel-default">
       <div class="panel-heading">
     {{#is_page_zero}}
-      <h2 style="margin-bottom: 0px">Transactions in the last {{no_of_last_blocks}} blocks</h2>
+      Transactions in the last {{no_of_last_blocks}} blocks
     {{/is_page_zero}}
     {{^is_page_zero}}
-      <h2 style="margin-bottom: 0px">Transactions in older blocks<!--(height: {{height}})--></h2>
+      Transactions in older blocks<!--(height: {{height}})-->
     {{/is_page_zero}}
-      <h4 style="font-size: 14px; margin-top: 0px">(Median size of these blocks: {{blk_size_median}} kB)</h4>
+      <small>(Median size of these blocks: {{blk_size_median}} kB)</small>
     </div>
 
     <div class="panel-body">
