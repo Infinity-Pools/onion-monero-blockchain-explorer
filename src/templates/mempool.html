@@ -2,9 +2,10 @@
 <div class="panel panel-default">
    <div class="panel-heading">
      Transaction pool
-     <small>(no of txs: {{mempool_size}}, size: {{mempool_size_kB}} kB, updated every {{ mempool_refresh_time }} seconds)</small>
+     <br><small>(no of txs: {{mempool_size}}, size: {{mempool_size_kB}} kB)</small>
    </div>
    <div class="panel-body">
+      <div class="table-responsive center">
       <table class="table center">
             <thead>
             <tr>
@@ -29,6 +30,7 @@
             </tr>
             {{/mempooltxs}}
         </table>
+      </div>
 
     {{^mempool_fits_on_front_page}}
       {{#partial_mempool_shown}}

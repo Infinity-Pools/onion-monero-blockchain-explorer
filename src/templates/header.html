@@ -6,6 +6,10 @@
     {{#refresh}}
         <meta http-equiv="refresh" content="10">
     {{/refresh}}
+    <meta name="viewport" content="width=device-width, minimum-scale=1" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="cache-control" content="no-cache">
     <title>Ombre Blockchain Explorer</title>
     <!--<link rel="stylesheet" type="text/css" href="/css/style.css">-->
     <style type="text/css">
@@ -38,23 +42,22 @@
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
 
-              <li>
-                <form action="/search" method="get" style="width:100%; margin-top:15px" class="style-1">
-                <input type="text" name="value" size="120" placeholder="block height, block hash, transaction hash">
-                <input type="submit" value="Search">
-                </form>
-              </li>
-      </div>
-
         </ul>
       </div>
     </div>
   </div>
 
-<div class="container">
+<div id="explorer" class="container">
   <div class="row justify-content-center">
     <div class="col-8">
 
-      <div class="center">
-        <h1 class="center"><a href="/">Ombre Blockchain Explorer</a></h1>
-      </div>
+      <form action="/search" method="get" id="explorer-search" autocomplete="off">
+        <div class="input-group">
+          <input class="form-control" type="text" name="value" size="120" placeholder="blk height, blk hash, tx hash, tx payment id, encrypted payment id, tx public key, input key image, stealth address, and datetime">
+          <span class="input-group-btn">
+            <button class="btn btn-explorer" type="submit" id="lookUp">
+              <span><i class="fa fa-search"></i> Lookup</span>
+            </button>
+          </span>
+        </div>
+      </form>

@@ -198,6 +198,7 @@ input#toggle-1[type=checkbox]:checked ~ div#decoded-inputs {
 th {
 	font-size: 12px;
 	font-weight: bold;
+  white-space: nowrap;
 }
 
 .panel-heading {
@@ -205,4 +206,42 @@ th {
     background-color: #333;
     border-color: #333;
     font-size: 16px;
+    text-align: center;
+}
+.form-control {
+  border: 1px solid #03a678;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.form-control:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-color: #027454;
+}
+#explorer {
+	margin-top: 60px;
+}
+
+#explorer .form-control {
+    border-color: #222;
+}
+
+#explorer-search {
+}
+.btn-explorer {
+    color: #ffffff;
+    background-color: #333;
+    border-color: #222;
+}
+
+.btn-explorer:hover,
+.btn-explorer:focus,
+.btn-explorer:active,
+.btn-default.active {
+    color: #ffffff;
+    background-color: #666;
 }
