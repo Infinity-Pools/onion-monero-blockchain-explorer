@@ -49,7 +49,7 @@ MicroCore::init(const string& _blockchain_path)
 
     blockchain_path = _blockchain_path;
 
-    //db_flags |= MDB_RDONLY;
+    db_flags |= MDB_RDONLY;
     db_flags |= MDB_NOLOCK;
     //db_flags |= MDB_SYNC;
 
