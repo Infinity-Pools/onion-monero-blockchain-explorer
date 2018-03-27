@@ -4960,8 +4960,8 @@ namespace xmreg
 
                 j_data = json {
                         {"blk_no"  , current_values.blk_no - 1},
-                        {"coinbase", current_values.coinbase},
-                        {"fee"     , current_values.fee},
+                        {"coinbase", current_values.coinbase / 100000000},
+                        {"fee"     , current_values.fee / 100000000},
                 };
             }
 
